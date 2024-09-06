@@ -1,9 +1,23 @@
-ENTRYPOINT ["top", "-b"]
+# Étape 1: Construction
+FROM gradle:8.10-jdk17 AS build
 
+WORKDIR /app
 
-FROM openjdk:17
-COPY target/*.jar app-devops.jar
+# Copiez le fichier de build Gradle et les sources
+COPY build.gradle settings.gradle /app/
+COPY src /app/src
+
+# Construisez l'application
+RUN gradle build --no-daemon
+
+# Étape 2: Création de l'image finale
+FROM openjdk:17-jdk-alpine
+
+WORKDIR /app
+
+# Copiez le JAR construit depuis l'étape de construction
+COPY --from=build /app/build/libs/*.jar cicd.jar
+
 EXPOSE 80
-LABEL authors="clecorre2024"
 
-CMD ["java", "-jar", "app-devops.jar", "--server.port=80"]
+CMD ["java", "-jar", "cicd.jar", "--server.port=80"]
