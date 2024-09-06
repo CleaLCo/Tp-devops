@@ -1,13 +1,13 @@
-package com.example.tpdevops;
+package fr.eni.devops.appdevops;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TpDevopsApplication {
+public class AppDevopsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TpDevopsApplication.class, args);
+		SpringApplication.run(AppDevopsApplication.class, args);
 	}
 
 }
